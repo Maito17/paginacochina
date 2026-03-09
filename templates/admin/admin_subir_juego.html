@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Panel Admin | Subir Juego{% endblock %}
+{% block content %}
+<div style="max-width: 700px; margin: 2.5rem auto; background: #181828; border-radius: 16px; box-shadow: 0 2px 24px #000a; padding: 2.5rem 2rem;">
+    <h1 style="color: #ff3366; font-size: 2rem; margin-bottom: 2rem;">Subir Nuevo Juego</h1>
+    {% if mensaje %}
+        <div style="background: #232345; color: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1.2rem;">{{ mensaje }}</div>
+    {% endif %}
+    {% if error %}
+        <div style="background: #a00; color: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1.2rem;">Error: {{ error }}</div>
+    {% endif %}
+    {% if juego_guardado %}
+        <div style="background: #1a3; color: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1.2rem;">
+            <b>Juego guardado en la base de datos:</b><br>
+            Título: {{ juego_guardado.title }}<br>
+            Categoría: {{ juego_guardado.category }}<br>
+            Imagen:<br>
+            <img src="{{ juego_guardado.thumbnail.url }}" alt="Vista previa" style="max-width: 120px; max-height: 120px; border-radius: 8px; margin: 0.5rem 0; background: #fff;">
+            <br>
+            URL descarga: {{ juego_guardado.download_url }}
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.2rem;">
+        {% csrf_token %}
+        <label style="color: #fff; font-weight: bold;">Título</label>
+        <input type="text" name="title" required style="padding: 0.7rem; border-radius: 8px; border: none; background: #222; color: #fff;">
+
+        <label style="color: #fff; font-weight: bold;">Descripción</label>
+        <textarea name="description" rows="4" required style="padding: 0.7rem; border-radius: 8px; border: none; background: #222; color: #fff;"></textarea>
+
+        <label style="color: #fff; font-weight: bold;">Categoría</label>
+        {% if categorias and categorias|length > 0 %}
+        <select name="category" required style="padding: 0.7rem; border-radius: 8px; border: none; background: #222; color: #fff;">
+            {% for cat in categorias %}
+            <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <div style="color: #ff3366; margin-bottom: 1rem;">No hay categorías disponibles. Debes crear al menos una categoría antes de subir juegos.</div>
+        {% endif %}
+
+        <label style="color: #fff; font-weight: bold;">Imagen de portada</label>
+        <input type="file" name="thumbnail" accept="image/*" required style="padding: 0.7rem; border-radius: 8px; border: none; background: #222; color: #fff;">
+
+        <label style="color: #fff; font-weight: bold;">URL de descarga</label>
+        <input type="url" name="download_url" required style="padding: 0.7rem; border-radius: 8px; border: none; background: #222; color: #fff;">
+
+        <label style="color: #fff; font-weight: bold;">Tags (separados por coma)</label>
+        <input type="text" name="tags" style="padding: 0.7rem; border-radius: 8px; border: none; background: #222; color: #fff;">
+
+        <label style="color: #fff; font-weight: bold;">Estado</label>
+        <select name="estado" style="padding: 0.7rem; border-radius: 8px; border: none; background: #222; color: #fff;">
+            <option value="completado">Completado</option>
+            <option value="en desarrollo">En desarrollo</option>
+            <option value="abandonado">Abandonado</option>
+        </select>
+
+        <button type="submit" style="background: #ff3366; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 1rem 0; font-size: 1.1rem; margin-top: 1.5rem; cursor: pointer;">Subir Juego</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}{{ juego.title }} | Detalle{% endblock %}
+{% block content %}
+<div style="max-width: 900px; margin: 2.5rem auto; background: #181828; border-radius: 16px; box-shadow: 0 2px 24px #000a; padding: 2.5rem 2rem;">
+    <div style="display: flex; gap: 2.5rem; align-items: flex-start; flex-wrap: wrap;">
+        <img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}" style="width: 220px; height: 220px; object-fit: cover; border-radius: 12px; background: #fff;">
+        <div style="flex: 1;">
+            <h1 style="color: #ff3366; font-size: 2.2rem; margin-bottom: 0.7rem;">{{ juego.title }}</h1>
+            <div style="color: #fff; font-size: 1.1rem; margin-bottom: 1.2rem;">{{ juego.description }}</div>
+            <div style="color: #ff0; font-weight: bold; margin-bottom: 0.7rem;">Categoría: {{ juego.category.name }}</div>
+            <a href="{{ juego.download_url }}" target="_blank" style="background: #ff3366; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 1.1rem; text-decoration: none;">Descargar</a>
+            {% if es_popular %}
+            <span style="background: gold; color: #232345; font-weight: bold; border-radius: 6px; padding: 0.3rem 0.8rem; margin-left: 1rem;">★ Popular</span>
+            {% endif %}
+            <div style="margin-top: 1.2rem; display: flex; gap: 1.5rem; align-items: center;">
+                <span style="color: #fff;">Likes: <b>{{ likes_count }}</b></span>
+                <span style="color: #fff;">Comentarios: <b>{{ comentarios_count }}</b></span>
+                <span style="color: #fff;">Publicado: {{ juego.created_at|date:"d/m/Y" }}</span>
+            </div>
+            <!-- Valoración promedio eliminada para dejar solo la interactiva -->
+            {% if user.is_authenticated %}
+            <form method="post" style="display: inline; margin-top: 1.2rem;" autocomplete="off">
+                {% csrf_token %}
+                <input type="hidden" name="like_submit" value="1">
+                <button type="submit" style="background: {% if user_like %}#7a7aff{% else %}#ff3366{% endif %}; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.5rem 1.2rem; font-size: 1.1rem; margin-left: 0.5rem; cursor: pointer;">{% if user_like %}Te gusta{% else %}Dar Like{% endif %}</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    <hr style="margin: 2rem 0; border: 1px solid #232345;">
+    <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 1rem;">Comentarios</h2>
+    {% if mensaje %}
+        <div style="background: #232345; color: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1.2rem;">{{ mensaje }}</div>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <form method="post" style="margin-bottom: 2rem;" autocomplete="off" id="form-comentario">
+            {% csrf_token %}
+            <div style="margin-bottom: 1rem;">
+                <label for="id_comment" style="color: #fff; font-weight: bold;">Comentario:</label><br>
+                <textarea name="comment" id="id_comment" rows="3" style="width: 100%; border-radius: 8px; padding: 0.7rem; border: none; background: #222; color: #fff;" required placeholder="Escribe tu comentario..."></textarea>
+            </div>
+            <div style="margin-bottom: 1.2rem;">
+                <label style="color: #fff; font-weight: bold;">Valoración:</label><br>
+                <div id="rating-stars" style="font-size: 2rem; cursor: pointer; color: gold; display: inline-block;">
+                    {% for i in "54321" %}
+                        <span class="star" data-value="{{ i }}">&#9733;</span>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="rating" id="id_rating" value="5">
+            </div>
+            <input type="hidden" name="comment_submit" value="1">
+            <button type="submit" style="background: #ff3366; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 1.1rem; margin-top: 0.5rem; cursor: pointer;">Enviar comentario</button>
+        </form>
+        <script>
+        // Estrellas interactivas para rating
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('#rating-stars .star');
+            const input = document.getElementById('id_rating');
+            let current = 5;
+            function setStars(val) {
+                stars.forEach(star => {
+                    if (parseInt(star.dataset.value) <= val) {
+                        star.style.color = 'gold';
+                    } else {
+                        star.style.color = '#444';
+                    }
+                });
+            }
+            stars.forEach(star => {
+                star.addEventListener('mouseenter', function() {
+                    setStars(parseInt(this.dataset.value));
+                });
+                star.addEventListener('mouseleave', function() {
+                    setStars(current);
+                });
+                star.addEventListener('click', function() {
+                    current = parseInt(this.dataset.value);
+                    input.value = current;
+                    setStars(current);
+                });
+            });
+            setStars(current);
+        });
+        </script>
+    {% else %}
+        <div style="color: #ccc; margin-bottom: 1.5rem;">Inicia sesión para dejar un comentario.</div>
+    {% endif %}
+    {% for comentario in comentarios %}
+        <div style="background: #222; color: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1.2rem;">
+            <b>{{ comentario.user.username }}</b> <span style="color: gold;">★ {{ comentario.rating }}</span><br>
+            <span style="font-size: 0.95rem; color: #ccc;">{{ comentario.created_at|date:"d/m/Y H:i" }}</span>
+            <div style="margin-top: 0.5rem;">{{ comentario.comment }}</div>
+        </div>
+    {% empty %}
+        <div style="color: #ccc;">No hay comentarios aún.</div>
+    {% endfor %}
+</div>
+{% endblock %}

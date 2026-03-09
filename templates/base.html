@@ -1,0 +1,220 @@
+<!-- Base template for the project -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Saya Tienda{% endblock %}</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .navbar {
+            width: 100vw;
+            background: #111;
+            color: #ff3366;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 56px;
+            box-shadow: 0 2px 8px #000a;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .navbar-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-left: 2rem;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 6px #000;
+        }
+        .navbar-menu {
+            margin-left: 2rem;
+            margin-right: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .navbar-menu, .navbar-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .navbar-menu > li {
+            position: relative;
+        }
+        .navbar-menu a, .navbar-menu button {
+            color: #fff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+            padding: 0.5rem 1rem;
+            font-family: inherit;
+        }
+        .navbar-menu a:hover, .navbar-menu button:hover {
+            color: #ff3366;
+        }
+        .navbar-menu .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #181818;
+            min-width: 180px;
+            box-shadow: 0 4px 24px #000a;
+            border-radius: 0 0 10px 10px;
+            z-index: 9999;
+            padding: 0.5rem 0;
+            transition: opacity 0.18s;
+        }
+        .navbar-menu li.show-submenu > .submenu {
+            display: block;
+        }
+        .navbar-menu .submenu li {
+            width: 100%;
+        }
+        .navbar-menu .submenu a {
+            display: block;
+            width: 100%;
+            padding: 0.7rem 1.2rem;
+            color: #fff;
+            background: none;
+            border: none;
+            text-align: left;
+        }
+        .navbar-menu .submenu a:hover {
+            background: #181828;
+            color: #ff3366;
+        }
+        .navbar-arrow {
+            margin-left: 0.3em;
+            font-size: 0.9em;
+        }
+        .navbar-auth {
+            margin-left: auto;
+            margin-right: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .navbar-auth a {
+            color: #ff3366;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        .navbar-auth a:hover {
+            color: #fff;
+        }
+        .spacer {
+            height: 56px;
+        }
+        .central-cover {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+        }
+        .central-cover img {
+            width: 100vw;
+            height: 95vh;
+            object-fit: cover;
+            border-radius: 0;
+            box-shadow: none;
+            margin: 0;
+            background: #222;
+            display: block;
+        }
+        .central-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-align: center;
+            margin: 2rem 0 0 0;
+            color: #ff3366;
+            text-shadow: 2px 2px 8px #000;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-title">El Rincón de Saya</div>
+        <ul class="navbar-menu">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/busqueda-avanzada/">Búsqueda Avanzada</a></li>
+            <li><a href="/suscriptores/">Suscriptores</a></li>
+            <li class="has-submenu">
+                <button type="button">Categoria <span class="navbar-arrow">▼</span></button>
+                <ul class="submenu">
+                    <li><a href="/categoria/?tipo=RPG">RPG</a></li>
+                    <li><a href="/categoria/?tipo=Unity">Unity</a></li>
+                    <li><a href="/categoria/?tipo=Remoy">Remoy</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <button type="button">Android <span class="navbar-arrow">▼</span></button>
+                <ul class="submenu">
+                    <li><a href="/suscripciones/?tipo=Android">Android</a></li>
+                    <li><a href="/suscripciones/?tipo=Joinplay">Joinplay</a></li>
+                    <li><a href="/suscripciones/?tipo=APK">APK</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <button type="button">Redes <span class="navbar-arrow">▼</span></button>
+                <ul class="submenu">
+                    <li><a href="/redes/">Servidor de Discord</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="navbar-auth">
+            <a href="/accounts/login/">Login</a>
+            <a href="/accounts/register/">Registro</a>
+        </div>
+    </nav>
+    <script>
+    // Menú simple: click para abrir/cerrar submenu, solo uno abierto a la vez
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('.navbar-menu .has-submenu');
+        menuItems.forEach(function(item) {
+            const btn = item.querySelector('button');
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Cerrar otros
+                menuItems.forEach(function(other) {
+                    if (other !== item) other.classList.remove('show-submenu');
+                });
+                // Toggle este
+                item.classList.toggle('show-submenu');
+            });
+        });
+        // Cerrar al hacer click fuera
+        document.addEventListener('click', function(e) {
+            menuItems.forEach(function(item) {
+                item.classList.remove('show-submenu');
+            });
+        });
+    });
+    </script>
+    <div class="spacer"></div>
+    {% block content %}{% endblock %}
+</body>
+</html>
