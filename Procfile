@@ -1,1 +1,2 @@
-web: gunicorn saya_tienda.wsgi:application
+release: python manage.py migrate
+web: gunicorn saya_tienda.wsgi
