@@ -1,4 +1,5 @@
-mysqlclient
-dj-database-url
-whitenoise
+django
 gunicorn
+mysqlclient
+whitenoise
+dj-database-url
