@@ -81,8 +81,8 @@ WSGI_APPLICATION = 'saya_tienda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQLDATABASE'),
-        'USER': os.environ.get('MYSQLUSER'),
+        'NAME': os.environ.get('MYSQLDATABASE'),  # Sin guion bajo
+        'USER': os.environ.get('MYSQLUSER'),      # Sin guion bajo
         'PASSWORD': os.environ.get('MYSQLPASSWORD'),
         'HOST': os.environ.get('MYSQLHOST'),
         'PORT': os.environ.get('MYSQLPORT', '3306'),
