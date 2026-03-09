@@ -90,3 +90,10 @@ ALLOWED_HOSTS = ['paginacochina-production.up.railway.app', 'localhost', '127.0.
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# settings.py
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://paginacochina-production.up.railway.app',
+    'https://*.up.railway.app'  # Esto permite cualquier subdominio de Railway
+]
