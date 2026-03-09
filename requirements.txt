@@ -1,4 +1,2 @@
-django
-gunicorn
 mysqlclient
-Pillow
+dj-database-url
