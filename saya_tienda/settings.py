@@ -97,3 +97,5 @@ CSRF_TRUSTED_ORIGINS = [
     'https://paginacochina-production.up.railway.app',
     'https://*.up.railway.app'  # Esto permite cualquier subdominio de Railway
 ]
+# Permite que Django confíe en la cabecera enviada por el proxy de Railway
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
