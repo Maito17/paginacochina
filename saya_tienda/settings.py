@@ -83,5 +83,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 # CAMBIO RECOMENDADO: Para que Railway maneje bien el CSS
 STATIC_ROOT = BASE_DIR / 'staticfiles' 
 
+ALLOWED_HOSTS = ['paginacochina-production.up.railway.app', 'localhost', '127.0.0.1', '.up.railway.app']
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
