@@ -1,11 +1,9 @@
-<<<<<<< HEAD
 django
 gunicorn
 mysqlclient>=2.2.0
 Pillow
 whitenoise
 dj-database-url
-=======
 mysqlclient>=2.2.0
 Pillow
->>>>>>> 94ed01c (Agregar Pillow a requirements.txt)
+
