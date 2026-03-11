@@ -1,15 +1,18 @@
 <!-- Base template for the project -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Saya Tienda{% endblock %}</title>
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
         }
+
         body {
             background-color: #111;
             color: #fff;
@@ -17,6 +20,7 @@
             margin: 0;
             min-height: 100vh;
         }
+
         .navbar {
             width: 100vw;
             background: #111;
@@ -31,6 +35,7 @@
             left: 0;
             z-index: 100;
         }
+
         .navbar-title {
             font-size: 1.5rem;
             font-weight: bold;
@@ -38,6 +43,7 @@
             letter-spacing: 2px;
             text-shadow: 1px 1px 6px #000;
         }
+
         .navbar-menu {
             margin-left: 2rem;
             margin-right: 2rem;
@@ -45,15 +51,20 @@
             gap: 2rem;
             align-items: center;
         }
-        .navbar-menu, .navbar-menu ul {
+
+        .navbar-menu,
+        .navbar-menu ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .navbar-menu > li {
+
+        .navbar-menu>li {
             position: relative;
         }
-        .navbar-menu a, .navbar-menu button {
+
+        .navbar-menu a,
+        .navbar-menu button {
             color: #fff;
             background: none;
             border: none;
@@ -64,9 +75,12 @@
             padding: 0.5rem 1rem;
             font-family: inherit;
         }
-        .navbar-menu a:hover, .navbar-menu button:hover {
+
+        .navbar-menu a:hover,
+        .navbar-menu button:hover {
             color: #ff3366;
         }
+
         .navbar-menu .submenu {
             display: none;
             position: absolute;
@@ -80,12 +94,15 @@
             padding: 0.5rem 0;
             transition: opacity 0.18s;
         }
-        .navbar-menu li.show-submenu > .submenu {
+
+        .navbar-menu li.show-submenu>.submenu {
             display: block;
         }
+
         .navbar-menu .submenu li {
             width: 100%;
         }
+
         .navbar-menu .submenu a {
             display: block;
             width: 100%;
@@ -95,14 +112,17 @@
             border: none;
             text-align: left;
         }
+
         .navbar-menu .submenu a:hover {
             background: #181828;
             color: #ff3366;
         }
+
         .navbar-arrow {
             margin-left: 0.3em;
             font-size: 0.9em;
         }
+
         .navbar-auth {
             margin-left: auto;
             margin-right: 2rem;
@@ -110,6 +130,7 @@
             gap: 1.5rem;
             align-items: center;
         }
+
         .navbar-auth a {
             color: #ff3366;
             text-decoration: none;
@@ -117,12 +138,15 @@
             font-size: 1.1rem;
             transition: color 0.2s;
         }
+
         .navbar-auth a:hover {
             color: #fff;
         }
+
         .spacer {
             height: 56px;
         }
+
         .central-cover {
             display: flex;
             flex-direction: column;
@@ -133,6 +157,7 @@
             margin: 0;
             padding: 0;
         }
+
         .central-cover img {
             width: 100vw;
             height: 95vh;
@@ -143,6 +168,7 @@
             background: #222;
             display: block;
         }
+
         .central-title {
             font-size: 2.5rem;
             font-weight: bold;
@@ -155,15 +181,16 @@
     </style>
     {% block head %}{% endblock %}
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar-title">El Rincón de Saya</div>
         <ul class="navbar-menu">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/busqueda-avanzada/">Búsqueda Avanzada</a></li>
-            <li><a href="/suscriptores/">Suscriptores</a></li>
+            <li><a href="/">INICIO</a></li>
+            <li><a href="/busqueda-avanzada/">BÚSQUEDA AVANZADA</a></li>
+            <li><a href="/suscriptores/">SUSCRIPCIONES</a></li>
             <li class="has-submenu">
-                <button type="button">Categoria <span class="navbar-arrow">▼</span></button>
+                <button type="button">CATEGORIA <span class="navbar-arrow">▼</span></button>
                 <ul class="submenu">
                     <li><a href="/categoria/?tipo=RPG">RPG</a></li>
                     <li><a href="/categoria/?tipo=Unity">Unity</a></li>
@@ -171,7 +198,7 @@
                 </ul>
             </li>
             <li class="has-submenu">
-                <button type="button">Android <span class="navbar-arrow">▼</span></button>
+                <button type="button">ANDROID <span class="navbar-arrow">▼</span></button>
                 <ul class="submenu">
                     <li><a href="/suscripciones/?tipo=Android">Android</a></li>
                     <li><a href="/suscripciones/?tipo=Joinplay">Joinplay</a></li>
@@ -179,42 +206,41 @@
                 </ul>
             </li>
             <li class="has-submenu">
-                <button type="button">Redes <span class="navbar-arrow">▼</span></button>
+                <button type="button">REDES <span class="navbar-arrow">▼</span></button>
                 <ul class="submenu">
                     <li><a href="/redes/">Servidor de Discord</a></li>
                 </ul>
             </li>
         </ul>
-        <div class="navbar-auth">
-            <a href="/accounts/login/">Login</a>
-            <a href="/accounts/register/">Registro</a>
-        </div>
+        <!-- Auth links removed per user request -->
+
     </nav>
     <script>
-    // Menú simple: click para abrir/cerrar submenu, solo uno abierto a la vez
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuItems = document.querySelectorAll('.navbar-menu .has-submenu');
-        menuItems.forEach(function(item) {
-            const btn = item.querySelector('button');
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                // Cerrar otros
-                menuItems.forEach(function(other) {
-                    if (other !== item) other.classList.remove('show-submenu');
+        // Menú simple: click para abrir/cerrar submenu, solo uno abierto a la vez
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuItems = document.querySelectorAll('.navbar-menu .has-submenu');
+            menuItems.forEach(function (item) {
+                const btn = item.querySelector('button');
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    // Cerrar otros
+                    menuItems.forEach(function (other) {
+                        if (other !== item) other.classList.remove('show-submenu');
+                    });
+                    // Toggle este
+                    item.classList.toggle('show-submenu');
                 });
-                // Toggle este
-                item.classList.toggle('show-submenu');
+            });
+            // Cerrar al hacer click fuera
+            document.addEventListener('click', function (e) {
+                menuItems.forEach(function (item) {
+                    item.classList.remove('show-submenu');
+                });
             });
         });
-        // Cerrar al hacer click fuera
-        document.addEventListener('click', function(e) {
-            menuItems.forEach(function(item) {
-                item.classList.remove('show-submenu');
-            });
-        });
-    });
     </script>
     <div class="spacer"></div>
     {% block content %}{% endblock %}
 </body>
+
 </html>

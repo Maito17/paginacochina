@@ -12,6 +12,8 @@ class Game(models.Model):
     description = models.TextField()
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
     thumbnail = models.ImageField(upload_to='games/covers/')
+    image1 = models.ImageField(upload_to='games/screenshots/', blank=True, null=True)
+    image2 = models.ImageField(upload_to='games/screenshots/', blank=True, null=True)
     download_url = models.URLField()
     views_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)

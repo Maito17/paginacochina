@@ -75,6 +75,8 @@ def admin_subir_juego(request):
         tags = request.POST.get('tags')
         estado = request.POST.get('estado')
         thumbnail = request.FILES.get('thumbnail')
+        image1 = request.FILES.get('image1')
+        image2 = request.FILES.get('image2')
         try:
             categoria = Category.objects.get(id=category_id)
             juego = Game.objects.create(
@@ -82,6 +84,8 @@ def admin_subir_juego(request):
                 description=description,
                 category=categoria,
                 thumbnail=thumbnail,
+                image1=image1,
+                image2=image2,
                 download_url=download_url
             )
             mensaje = 'Juego subido correctamente.'

@@ -5,71 +5,99 @@
     <nav style="color: #aaa; font-size: 1rem; margin-bottom: 1.2rem;">
         <span><a href="/" style="color: #ff3366; text-decoration: none;">Inicio</a> / Búsqueda Avanzada</span>
     </nav>
-    <h1 style="color: #fff; font-size: 2.3rem; margin-bottom: 1.5rem;">Busqueda Avanzada</h1>
-    <form method="get" style="background: #181828; border-radius: 18px; box-shadow: 0 2px 24px #000a; padding: 2.5rem 2rem 2rem 2rem; display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: flex-start;">
+    <h1 style="color: #fff; font-size: 2.3rem; margin-bottom: 1.5rem;">BÚSQUEDA AVANZADA</h1>
+    <form method="get"
+        style="background: #181828; border-radius: 18px; box-shadow: 0 2px 24px #000a; padding: 2.5rem 2rem 2rem 2rem; display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: flex-start;">
         <!-- Filtros -->
         <aside style="min-width: 270px; max-width: 320px; flex: 1;">
             <div style="background: #111; border-radius: 14px; padding: 1.5rem 1.2rem; box-shadow: 0 2px 12px #000a;">
-                <h2 style="color: #7a7aff; font-size: 1.2rem; margin-top: 0; margin-bottom: 1.2rem; letter-spacing: 1px;">FILTROS</h2>
+                <h2
+                    style="color: #7a7aff; font-size: 1.2rem; margin-top: 0; margin-bottom: 1.2rem; letter-spacing: 1px;">
+                    FILTROS</h2>
                 <label style="font-weight: bold; color: #fff;">Categoría</label>
-                <select name="categoria" style="width: 100%; margin: 0.5rem 0 1rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
+                <select name="categoria"
+                    style="width: 100%; margin: 0.5rem 0 1rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
                     <option value="">Todas</option>
                     {% for cat in categorias %}
-                        <option value="{{ cat.name }}" {% if categoria == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+                    <option value="{{ cat.name }}" {% if categoria==cat.name %}selected{% endif %}>{{ cat.name }}
+                    </option>
                     {% endfor %}
                 </select>
                 <label style="font-weight: bold; color: #fff;">Tags:</label>
-                <input type="text" name="tags" value="{{ tags }}" placeholder="Ej: acción, aventura" style="width: 100%; margin: 0.5rem 0 1.2rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
+                <input type="text" name="tags" value="{{ tags }}" placeholder="Ej: acción, aventura"
+                    style="width: 100%; margin: 0.5rem 0 1.2rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
                 <label style="font-weight: bold; color: #fff;">Excluir tags:</label>
-                <input type="text" name="exclude_tags" value="{{ exclude_tags }}" placeholder="Ej: terror, puzzle" style="width: 100%; margin: 0.5rem 0 1.2rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
-                <button type="submit" style="background: #7a7aff; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 2rem; font-size: 1.1rem; margin-top: 1rem; cursor: pointer; width: 100%;">FILTRAR</button>
-                <a href="?" style="display: block; background: #ff3366; color: #fff; font-weight: bold; border-radius: 8px; padding: 0.7rem 2rem; font-size: 1.1rem; margin-top: 1rem; text-align: center; text-decoration: none;">LIMPIAR</a>
+                <input type="text" name="exclude_tags" value="{{ exclude_tags }}" placeholder="Ej: terror, puzzle"
+                    style="width: 100%; margin: 0.5rem 0 1.2rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
+                <button type="submit"
+                    style="background: #7a7aff; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 2rem; font-size: 1.1rem; margin-top: 1rem; cursor: pointer; width: 100%;">FILTRAR</button>
+                <a href="?"
+                    style="display: block; background: #ff3366; color: #fff; font-weight: bold; border-radius: 8px; padding: 0.7rem 2rem; font-size: 1.1rem; margin-top: 1rem; text-align: center; text-decoration: none;">LIMPIAR</a>
             </div>
         </aside>
         <!-- Resultados -->
         <section style="flex: 3; min-width: 340px;">
             <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
-                <input type="text" name="q" value="{{ query }}" placeholder="Busca por título o contenido..." style="flex: 2; padding: 0.9rem 1.2rem; border-radius: 2rem; border: none; background: #222; color: #fff; font-size: 1.1rem;">
-                <span style="margin-left: 1.5rem; color: #7a7aff; font-weight: bold;">{{ total_resultados }} Resultados</span>
+                <input type="text" name="q" value="{{ query }}" placeholder="Busca por título o contenido..."
+                    style="flex: 2; padding: 0.9rem 1.2rem; border-radius: 2rem; border: none; background: #222; color: #fff; font-size: 1.1rem;">
+                <span style="margin-left: 1.5rem; color: #7a7aff; font-weight: bold;">{{ total_resultados }}
+                    Resultados</span>
             </div>
             <!-- Paginación -->
             <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem;">
                 {% if page_obj.has_previous %}
-                    <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}" style="background: #222; color: #fff; border: none; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">&#60;</a>
+                <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                    style="background: #222; color: #fff; border: none; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">&#60;</a>
                 {% else %}
-                    <span style="background: #222; color: #888; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem;">&#60;</span>
+                <span
+                    style="background: #222; color: #888; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem;">&#60;</span>
                 {% endif %}
                 {% for num in page_obj.paginator.page_range %}
-                    {% if num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}
-                        {% if page_obj.number == num %}
-                            <span style="background: #7a7aff; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; font-weight: bold;">{{ num }}</span>
-                        {% else %}
-                            <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ num }}" style="background: #222; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">{{ num }}</a>
-                        {% endif %}
-                    {% elif num == 1 or num == page_obj.paginator.num_pages %}
-                        {% if num == 1 and page_obj.number > 3 %}<span style="color: #fff; font-size: 1.2rem;">...</span>{% endif %}
-                        <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ num }}" style="background: #222; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">{{ num }}</a>
-                        {% if num == page_obj.paginator.num_pages and page_obj.number < page_obj.paginator.num_pages|add:'-2' %}<span style="color: #fff; font-size: 1.2rem;">...</span>{% endif %}
+                {% if num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %} {% if page_obj.number==num %}
+                    <span
+                    style="background: #7a7aff; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; font-weight: bold;">
+                    {{ num }}</span>
+                    {% else %}
+                    <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ num }}"
+                        style="background: #222; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">{{
+                        num }}</a>
                     {% endif %}
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ page_obj.next_page_number }}" style="background: #222; color: #fff; border: none; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">&#62;</a>
-                {% else %}
-                    <span style="background: #222; color: #888; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem;">&#62;</span>
-                {% endif %}
+                    {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                    {% if num == 1 and page_obj.number > 3 %}<span style="color: #fff; font-size: 1.2rem;">...</span>{%
+                    endif %}
+                    <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ num }}"
+                        style="background: #222; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">{{
+                        num }}</a>
+                    {% if num == page_obj.paginator.num_pages and page_obj.number <
+                        page_obj.paginator.num_pages|add:'-2' %}<span style="color: #fff; font-size: 1.2rem;">
+                        ...</span>{% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                        <a href="?{% if query %}q={{ query|urlencode }}&{% endif %}{% if categoria %}categoria={{ categoria|urlencode }}&{% endif %}{% if tags %}tags={{ tags|urlencode }}&{% endif %}{% if exclude_tags %}exclude_tags={{ exclude_tags|urlencode }}&{% endif %}page={{ page_obj.next_page_number }}"
+                            style="background: #222; color: #fff; border: none; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; text-decoration: none;">&#62;</a>
+                        {% else %}
+                        <span
+                            style="background: #222; color: #888; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem;">&#62;</span>
+                        {% endif %}
             </div>
             <!-- Galería de juegos -->
             <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
                 {% for juego in page_obj %}
-                <div style="background: #222; border-radius: 16px; box-shadow: 0 2px 12px #000a; width: 220px; overflow: hidden;">
+                <div
+                    style="background: #222; border-radius: 16px; box-shadow: 0 2px 12px #000a; width: 220px; overflow: hidden;">
                     {% if juego.thumbnail %}
-                        <img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}" style="width: 100%; height: 140px; object-fit: cover;">
+                    <img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}"
+                        style="width: 100%; height: 140px; object-fit: cover;">
                     {% else %}
-                        <div style="width: 100%; height: 140px; background: #333; display: flex; align-items: center; justify-content: center; color: #fff;">Sin imagen</div>
+                    <div
+                        style="width: 100%; height: 140px; background: #333; display: flex; align-items: center; justify-content: center; color: #fff;">
+                        Sin imagen</div>
                     {% endif %}
                     <div style="padding: 1rem;">
                         <div style="color: #fff; font-weight: bold; font-size: 1.1rem;">{{ juego.title }}</div>
-                        <div style="color: #aaa; font-size: 0.95rem; margin-top: 0.3rem;">{{ juego.category.name }}</div>
+                        <div style="color: #aaa; font-size: 0.95rem; margin-top: 0.3rem;">{{ juego.category.name }}
+                        </div>
                     </div>
                 </div>
                 {% empty %}

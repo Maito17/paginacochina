@@ -1,6 +1,7 @@
 import os  # <-- MOVIDO AQUÍ (Debe estar fuera de las comillas triples)
 from pathlib import Path
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-^p=@oc50g58yur5d0t7&u@oz5=6k0(7n!*hp0k$9m$m1n4jsf9'
@@ -56,16 +57,16 @@ WSGI_APPLICATION = 'saya_tienda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQLDATABASE'),
-        'USER': os.environ.get('MYSQLUSER'),
-        'PASSWORD': os.environ.get('MYSQLPASSWORD'),
-        'HOST': os.environ.get('MYSQLHOST'),
-        'PORT': os.environ.get('MYSQLPORT', '3306'),
+        'NAME': 'nexus_game',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '',  # localhost
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4', # Recomendado para evitar errores de caracteres
+            'charset': 'utf8mb4',
         },
-        'CONN_MAX_AGE': 600, # Mantiene la conexión abierta por 10 minutos
+        'CONN_MAX_AGE': 600,
     }
 }
 
