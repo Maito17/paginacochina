@@ -4,9 +4,7 @@ mysqlclient>=2.2.0
 Pillow
 whitenoise
 dj-database-url
-<<<<<<< HEAD
-=======
 mysqlclient>=2.2.0
 Pillow
->>>>>>> 22a0946e9e51d902718c62461b8c7fcb13a56510
+
 
