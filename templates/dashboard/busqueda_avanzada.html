@@ -19,7 +19,7 @@
                     style="width: 100%; margin: 0.5rem 0 1rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
                     <option value="">Todas</option>
                     {% for cat in categorias %}
-                    <option value="{{ cat.name }}" {% if categoria==cat.name %}selected{% endif %}>{{ cat.name }}
+                    <option value="{{ cat.name }}" {% if categoria == cat.name %}selected{% endif %}>{{ cat.name }}
                     </option>
                     {% endfor %}
                 </select>
@@ -53,7 +53,7 @@
                     style="background: #222; color: #888; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem;">&#60;</span>
                 {% endif %}
                 {% for num in page_obj.paginator.page_range %}
-                {% if num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %} {% if page_obj.number==num %}
+                {% if num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %} {% if page_obj.number == num %}
                     <span
                     style="background: #7a7aff; color: #fff; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; font-weight: bold;">
                     {{ num }}</span>

@@ -24,10 +24,10 @@
         .navbar {
             width: 100vw;
             background: #111;
-            color: #ff3366;
+            color: #fff;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             height: 56px;
             box-shadow: 0 2px 8px #000a;
             position: fixed;
@@ -37,16 +37,27 @@
         }
 
         .navbar-title {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             font-weight: bold;
-            margin-left: 2rem;
+            margin: 0 2rem 0 0;
             letter-spacing: 2px;
             text-shadow: 1px 1px 6px #000;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-title .rincon {
+            color: #fff;
+        }
+        .navbar-title .saya {
+            color: #e60012;
+            margin-left: 0.3rem;
         }
 
         .navbar-menu {
-            margin-left: 2rem;
-            margin-right: 2rem;
+            margin: 0;
             display: flex;
             gap: 2rem;
             align-items: center;
@@ -184,7 +195,10 @@
 
 <body>
     <nav class="navbar">
-        <div class="navbar-title">El Rincón de Saya</div>
+        <div class="navbar-title">
+            <span class="rincon">EL RINCÓN DE</span>
+            <span class="saya">SAYA</span>
+        </div>
         <ul class="navbar-menu">
             <li><a href="/">INICIO</a></li>
             <li><a href="/busqueda-avanzada/">BÚSQUEDA AVANZADA</a></li>
