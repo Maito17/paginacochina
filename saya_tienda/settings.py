@@ -57,11 +57,11 @@ WSGI_APPLICATION = 'saya_tienda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nexus_game',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '',  # localhost
-        'PORT': '3306',
+        'NAME': os.environ.get('MYSQLDATABASE', 'nexus_game'),
+        'USER': os.environ.get('MYSQLUSER', 'root'),
+        'PASSWORD': os.environ.get('MYSQLPASSWORD', 'root'),
+        'HOST': os.environ.get('MYSQLHOST', ''),
+        'PORT': os.environ.get('MYSQLPORT', '3306'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',
