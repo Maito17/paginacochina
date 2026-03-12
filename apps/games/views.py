@@ -1,46 +1,19 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from apps.interactions.models import Review
-from apps.interactions.forms import ReviewForm
-from django.contrib.auth.decorators import login_required
-# Vista detalle de juego con comentarios
+
+# Vista detalle de juego solo visualización pública
 def juego_detalle(request, juego_id):
-    from apps.interactions.models import Like
     juego = get_object_or_404(Game, id=juego_id)
     comentarios = Review.objects.filter(game=juego).select_related('user').order_by('-created_at')
-    likes_count = Like.objects.filter(game=juego).count()
     comentarios_count = comentarios.count()
     promedio_rating = comentarios.aggregate(Avg('rating'))['rating__avg'] or 0
     es_popular = juego.views_count >= 10 or promedio_rating >= 4.5  # Ejemplo de criterio
-    user_like = False
-    form = None
-    mensaje = None
-    if request.user.is_authenticated:
-        user_like = Like.objects.filter(game=juego, user=request.user).exists()
-        if request.method == 'POST' and 'comment_submit' in request.POST:
-            form = ReviewForm(request.POST)
-            if form.is_valid():
-                review = form.save(commit=False)
-                review.user = request.user
-                review.game = juego
-                review.save()
-                mensaje = 'Comentario enviado correctamente.'
-                form = ReviewForm()  # Limpiar formulario
-        elif request.method == 'POST' and 'like_submit' in request.POST:
-            if not user_like:
-                Like.objects.create(game=juego, user=request.user)
-            return redirect('juego_detalle', juego_id=juego.id)
-        else:
-            form = ReviewForm()
     return render(request, 'games/juego_detalle.html', {
         'juego': juego,
         'comentarios': comentarios,
-        'form': form,
-        'mensaje': mensaje,
-        'likes_count': likes_count,
         'comentarios_count': comentarios_count,
         'promedio_rating': promedio_rating,
-        'es_popular': es_popular,
-        'user_like': user_like
+        'es_popular': es_popular
     })
 from django.shortcuts import render, redirect
 # Vista admin para panel de control (solo staff)
