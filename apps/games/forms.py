@@ -11,4 +11,5 @@ class GameUploadForm(forms.ModelForm):
             'thumbnail',
             'download_url',
             'download_url_android',
+            'android_type',
         ]

@@ -1,8 +1,8 @@
 django
 gunicorn
 PyMySQL>=1.1.0
+psycopg2-binary
 Pillow
 whitenoise
 dj-database-url
-
 

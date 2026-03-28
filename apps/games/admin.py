@@ -1,9 +1,27 @@
 
 from django.contrib import admin
-from django.urls import path
-from django.utils.html import format_html
 from .models import Game, Category
-from django.db import models
+
+
+@admin.register(Game)
+class GameAdmin(admin.ModelAdmin):
+	list_display = ('title', 'category', 'android_type', 'created_at')
+	list_filter = ('category', 'android_type', 'created_at')
+	search_fields = ('title', 'description')
+	fieldsets = (
+		('Informacion basica', {
+			'fields': ('title', 'description', 'category'),
+		}),
+		('Imagenes', {
+			'fields': ('thumbnail', 'image1', 'image2'),
+		}),
+		('Descargas y clasificacion', {
+			'fields': ('download_url', 'download_url_android', 'android_type'),
+		}),
+		('Metricas', {
+			'fields': ('views_count',),
+		}),
+	)
 
 # Modelo proxy para el panel de control
 class ControlProxy(Game):
@@ -28,6 +46,9 @@ class ControlAdmin(admin.ModelAdmin):
 		extra_context['control_url'] = '/panel/control/'
 		return super().changelist_view(request, extra_context=extra_context)
 
-admin.site.register(Game)
-admin.site.register(Category)
-admin.site.register(ControlProxy, ControlAdmin)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+	list_display = ('name', 'description')
+	search_fields = ('name',)
+
+	admin.site.register(ControlProxy, ControlAdmin)

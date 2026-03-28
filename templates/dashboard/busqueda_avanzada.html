@@ -84,8 +84,8 @@
             <!-- Galería de juegos -->
             <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
                 {% for juego in page_obj %}
-                <div
-                    style="background: #222; border-radius: 16px; box-shadow: 0 2px 12px #000a; width: 220px; overflow: hidden;">
+                <a href="{% url 'juego_detalle' juego.id %}"
+                    style="display: block; background: #222; border-radius: 16px; box-shadow: 0 2px 12px #000a; width: 220px; overflow: hidden; text-decoration: none;">
                     {% if juego.thumbnail %}
                     <img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}"
                         style="width: 100%; height: 140px; object-fit: cover;">
@@ -99,7 +99,7 @@
                         <div style="color: #aaa; font-size: 0.95rem; margin-top: 0.3rem;">{{ juego.category.name }}
                         </div>
                     </div>
-                </div>
+                </a>
                 {% empty %}
                 <div style="color: #fff; font-size: 1.2rem;">No se encontraron juegos.</div>
                 {% endfor %}

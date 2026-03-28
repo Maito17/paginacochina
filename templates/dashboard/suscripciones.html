@@ -1,6 +1,31 @@
 {% extends 'base.html' %}
 {% block title %}SUSCRIPCIONES | Saya Tienda{% endblock %}
 {% block content %}
-<h1>SUSCRIPCIONES</h1>
-<p>Opciones de suscripción y beneficios.</p>
+<div style="max-width: 1100px; margin: 2.5rem auto; padding: 0 1rem;">
+	<h1 style="color: #fff; font-size: 2.2rem; margin-bottom: 0.5rem;">ANDROID</h1>
+	<p style="color: #bbb; margin-bottom: 2rem;">{% if tipo %}Listado para {{ tipo }}.{% else %}Juegos clasificados para Android, Joinplay y APK.{% endif %}</p>
+
+	<div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 2rem;">
+		<a href="/suscripciones/?tipo=Android" style="background: #222; color: #fff; padding: 0.7rem 1.2rem; border-radius: 999px; text-decoration: none;">Android</a>
+		<a href="/suscripciones/?tipo=Joinplay" style="background: #222; color: #fff; padding: 0.7rem 1.2rem; border-radius: 999px; text-decoration: none;">Joinplay</a>
+		<a href="/suscripciones/?tipo=APK" style="background: #222; color: #fff; padding: 0.7rem 1.2rem; border-radius: 999px; text-decoration: none;">APK</a>
+	</div>
+
+	<div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+		{% for juego in juegos %}
+		<a href="{% url 'juego_detalle' juego.id %}" style="display: block; width: 240px; background: #222; border-radius: 16px; overflow: hidden; text-decoration: none; box-shadow: 0 2px 12px #000a;">
+			{% if juego.thumbnail %}
+			<img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}" style="width: 100%; height: 150px; object-fit: cover;">
+			{% endif %}
+			<div style="padding: 1rem;">
+				<div style="color: #fff; font-size: 1.05rem; font-weight: bold; margin-bottom: 0.35rem;">{{ juego.title }}</div>
+				<div style="color: #8fdc65; font-size: 0.95rem; margin-bottom: 0.35rem;">{{ juego.get_android_type_display }}</div>
+				<div style="color: #aaa; font-size: 0.92rem;">{{ juego.category.name }}</div>
+			</div>
+		</a>
+		{% empty %}
+		<div style="color: #fff;">No hay juegos cargados para esta sección todavía.</div>
+		{% endfor %}
+	</div>
+</div>
 {% endblock %}

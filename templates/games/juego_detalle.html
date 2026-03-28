@@ -11,6 +11,9 @@
             <div style="color: #fff; font-size: 1.1rem; margin-bottom: 1.2rem;">{{ juego.description }}</div>
             <div style="color: #ff0; font-weight: bold; margin-bottom: 0.7rem;">Categoría: {{ juego.category.name }}
             </div>
+            {% if juego.android_type %}
+            <div style="color: #8fdc65; font-weight: bold; margin-bottom: 0.7rem;">Android: {{ juego.get_android_type_display }}</div>
+            {% endif %}
             {% if juego.download_url %}
             <a href="{{ juego.download_url }}" target="_blank"
                 style="background: #ff3366; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 1.1rem; text-decoration: none; margin-right: 0.6rem;">Descargar PC</a>
@@ -49,11 +52,6 @@
     {% endif %}
     <hr style="margin: 2rem 0; border: 1px solid #232345;">
     <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 1rem;">Comentarios</h2>
-    {% if mensaje %}
-    <!-- mensaje eliminado: solo visualización pública -->
-    {% endif %}
-    {% if user.is_authenticated %}
-    <!-- Formulario de comentarios eliminado: solo visualización pública -->
     {% for comentario in comentarios %}
     <div style="background: #222; color: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1.2rem;">
         <b>{{ comentario.user.username }}</b> <span style="color: gold;">★ {{ comentario.rating }}</span><br>

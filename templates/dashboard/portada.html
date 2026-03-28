@@ -87,7 +87,7 @@
         <!-- Tarjetas de destacados dinámicas -->
         <div style="display: flex; gap: 2.5rem; flex-wrap: wrap;">
             {% for juego in juegos_destacados %}
-            <div style="background: #222; border-radius: 18px; box-shadow: 0 4px 24px #000a; width: 280px; overflow: hidden; transition: transform 0.2s;">
+            <a href="{% url 'juego_detalle' juego.id %}" style="display: block; background: #222; border-radius: 18px; box-shadow: 0 4px 24px #000a; width: 280px; overflow: hidden; transition: transform 0.2s; text-decoration: none;">
                 <div style="background: #181828; display: flex; align-items: center; justify-content: center; height: 180px;">
                     <img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}" style="width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 0 8px #ff3366);">
                 </div>
@@ -96,7 +96,7 @@
                     <p style="margin: 0 0 0.5rem 0; color: #ccc;">{{ juego.description|truncatechars:70 }}</p>
                     <span style="color: gold; font-weight: bold;">{{ juego.category.name }}</span>
                 </div>
-            </div>
+            </a>
             {% empty %}
             <div style="color: #fff;">No hay juegos destacados aún.</div>
             {% endfor %}

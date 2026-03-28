@@ -48,6 +48,7 @@ def admin_subir_juego(request):
         descripcion_categoria = (request.POST.get('new_category_description') or '').strip()
         download_url = (request.POST.get('download_url') or '').strip()
         download_url_android = (request.POST.get('download_url_android') or '').strip()
+        android_type = (request.POST.get('android_type') or '').strip()
         tags = request.POST.get('tags')
         estado = request.POST.get('estado')
         thumbnail = request.FILES.get('thumbnail')
@@ -74,7 +75,8 @@ def admin_subir_juego(request):
                 image1=image1,
                 image2=image2,
                 download_url=download_url or None,
-                download_url_android=download_url_android or None
+                download_url_android=download_url_android or None,
+                android_type=android_type
             )
             mensaje = 'Juego subido correctamente.'
             juego_guardado = juego
@@ -158,8 +160,21 @@ def categoria(request):
         'categorias': categorias
     })
 
-def suscripciones(request):
-    return render(request, 'dashboard/suscripciones.html')
+def suscripciones(request, tipo=None):
+    tipo = (request.GET.get('tipo') or tipo or '').strip()
+    juegos = Game.objects.exclude(android_type='').order_by('-created_at')
+    tipo_normalizado = {
+        'android': Game.AndroidType.ANDROID,
+        'joinplay': Game.AndroidType.JOINPLAY,
+        'apk': Game.AndroidType.APK,
+    }.get(tipo.lower())
+    if tipo_normalizado:
+        juegos = juegos.filter(android_type=tipo_normalizado)
+
+    return render(request, 'dashboard/suscripciones.html', {
+        'tipo': tipo,
+        'juegos': juegos,
+    })
 
 def redes(request):
     return render(request, 'dashboard/redes.html')
