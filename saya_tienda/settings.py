@@ -86,10 +86,13 @@ if env_bool("USE_SQLITE", default=False):
 		}
 	}
 else:
+	_db_url = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 	DATABASES = {
 		"default": dj_database_url.config(
-			default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+			default=_db_url,
 			conn_max_age=600,
+			# PyMySQL is installed as MySQLdb in __init__.py so dj-database-url
+			# maps mysql:// → django.db.backends.mysql automatically.
 		)
 	}
 
