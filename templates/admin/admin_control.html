@@ -1,0 +1,38 @@
+{% extends 'admin/base_site.html' %}
+{% block content %}
+<h1>Panel de Control</h1>
+
+<!-- Sección: Ver Comentarios -->
+<h2>Comentarios</h2>
+<a href="/panel/comentarios/" class="button">Ver Comentarios</a>
+
+<!-- Sección: Referencias -->
+<h2>Referencias</h2>
+<!-- Aquí puedes agregar la lógica para mostrar referencias si existe -->
+<div id="referencias">
+    <!-- Referencias dinámicas -->
+</div>
+
+<!-- Sección: Subir Juegos -->
+<h2>Subir Juegos</h2>
+<a href="/panel/subir-juego/" class="button">Ir a Subir Juego</a>
+
+<!-- Sección: Datos del Juego -->
+<h2>Datos del Juego</h2>
+<div id="datos-juego">
+    <!-- Aquí se mostrarán los datos del juego seleccionado -->
+</div>
+
+<style>
+.button {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background: #232345;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+</style>
+{% endblock %}

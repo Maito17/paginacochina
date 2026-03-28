@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Panel Admin | Comentarios{% endblock %}
+{% block content %}
+<div style="max-width: 900px; margin: 2.5rem auto; background: #181828; border-radius: 16px; box-shadow: 0 2px 24px #000a; padding: 2.5rem 2rem;">
+    <h1 style="color: #ff3366; font-size: 2rem; margin-bottom: 2rem;">Gestión de Comentarios</h1>
+    <table style="width: 100%; border-collapse: collapse; background: #222; color: #fff;">
+        <thead>
+            <tr style="background: #232345;">
+                <th style="padding: 0.7rem; text-align: left;">Juego</th>
+                <th style="padding: 0.7rem; text-align: left;">Usuario</th>
+                <th style="padding: 0.7rem; text-align: left;">Comentario</th>
+                <th style="padding: 0.7rem; text-align: left;">Fecha</th>
+                <th style="padding: 0.7rem; text-align: left;">Vistas</th>
+                <th style="padding: 0.7rem; text-align: left;">Referencia</th>
+                <th style="padding: 0.7rem; text-align: left;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comentario in comentarios %}
+            <tr style="border-bottom: 1px solid #333;">
+                <td style="padding: 0.7rem;">{{ comentario.game.title }}</td>
+                <td style="padding: 0.7rem;">{{ comentario.user.username }}</td>
+                <td style="padding: 0.7rem;">{{ comentario.text }}</td>
+                <td style="padding: 0.7rem;">{{ comentario.created_at|date:'d/m/Y H:i' }}</td>
+                <td style="padding: 0.7rem;">{{ comentario.game.views_count }}</td>
+                <td style="padding: 0.7rem;">{{ comentario.reference }}</td>
+                <td style="padding: 0.7rem;">
+                    <a href="#" style="color: #ff3366; font-weight: bold;">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" style="padding: 1.2rem; color: #aaa; text-align: center;">No hay comentarios.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

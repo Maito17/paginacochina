@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}{{ juego.title }} | Detalle{% endblock %}
+{% block content %}
+<div
+    style="max-width: 900px; margin: 2.5rem auto; background: #181828; border-radius: 16px; box-shadow: 0 2px 24px #000a; padding: 2.5rem 2rem;">
+    <div style="display: flex; gap: 2.5rem; align-items: flex-start; flex-wrap: wrap;">
+        <img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}"
+            style="width: 220px; height: 220px; object-fit: cover; border-radius: 12px; background: #fff;">
+        <div style="flex: 1;">
+            <h1 style="color: #ff3366; font-size: 2.2rem; margin-bottom: 0.7rem;">{{ juego.title }}</h1>
+            <div style="color: #fff; font-size: 1.1rem; margin-bottom: 1.2rem;">{{ juego.description }}</div>
+            <div style="color: #ff0; font-weight: bold; margin-bottom: 0.7rem;">Categoría: {{ juego.category.name }}
+            </div>
+            {% if juego.download_url %}
+            <a href="{{ juego.download_url }}" target="_blank"
+                style="background: #ff3366; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 1.1rem; text-decoration: none; margin-right: 0.6rem;">Descargar PC</a>
+            {% endif %}
+            {% if juego.download_url_android %}
+            <a href="{{ juego.download_url_android }}" target="_blank"
+                style="background: #2dbf6e; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 1.1rem; text-decoration: none;">Descargar Android</a>
+            {% endif %}
+            {% if not juego.download_url and not juego.download_url_android %}
+            <span style="color: #ccc;">Sin enlaces de descarga por ahora.</span>
+            {% endif %}
+            {% if es_popular %}
+            <span
+                style="background: gold; color: #232345; font-weight: bold; border-radius: 6px; padding: 0.3rem 0.8rem; margin-left: 1rem;">★
+                Popular</span>
+            {% endif %}
+            <div style="margin-top: 1.2rem; display: flex; gap: 1.5rem; align-items: center;">
+                <span style="color: #fff;">Comentarios: <b>{{ comentarios_count }}</b></span>
+                <span style="color: #fff;">Publicado: {{ juego.created_at|date:"d/m/Y" }}</span>
+            </div>
+            <!-- Valoración promedio eliminada para dejar solo la interactiva -->
+            <!-- Botón de like eliminado: solo visualización pública -->
+        </div>
+    </div>
+    {% if juego.image1 or juego.image2 %}
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+        {% if juego.image1 %}
+        <img src="{{ juego.image1.url }}" alt="Imagen 1"
+            style="width: 280px; height: 160px; object-fit: cover; border-radius: 12px; border: 2px solid #232345;">
+        {% endif %}
+        {% if juego.image2 %}
+        <img src="{{ juego.image2.url }}" alt="Imagen 2"
+            style="width: 280px; height: 160px; object-fit: cover; border-radius: 12px; border: 2px solid #232345;">
+        {% endif %}
+    </div>
+    {% endif %}
+    <hr style="margin: 2rem 0; border: 1px solid #232345;">
+    <h2 style="color: #fff; font-size: 1.3rem; margin-bottom: 1rem;">Comentarios</h2>
+    {% if mensaje %}
+    <!-- mensaje eliminado: solo visualización pública -->
+    {% endif %}
+    {% if user.is_authenticated %}
+    <!-- Formulario de comentarios eliminado: solo visualización pública -->
+    {% for comentario in comentarios %}
+    <div style="background: #222; color: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1.2rem;">
+        <b>{{ comentario.user.username }}</b> <span style="color: gold;">★ {{ comentario.rating }}</span><br>
+        <span style="font-size: 0.95rem; color: #ccc;">{{ comentario.created_at|date:"d/m/Y H:i" }}</span>
+        <div style="margin-top: 0.5rem;">{{ comentario.comment }}</div>
+    </div>
+    {% empty %}
+    <div style="color: #ccc;">No hay comentarios aún.</div>
+    {% endfor %}
+</div>
+{% endblock %}

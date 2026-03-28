@@ -1,0 +1,8 @@
+django
+gunicorn
+PyMySQL>=1.1.0
+Pillow
+whitenoise
+dj-database-url
+
+

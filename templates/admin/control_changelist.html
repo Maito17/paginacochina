@@ -1,0 +1,20 @@
+{% extends "admin/change_list.html" %}
+{% block content_title %}
+    <h1>Panel de Control</h1>
+    <a href="{{ control_url }}" class="button">Ir al Panel de Control Personalizado</a>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: #232345;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <p>Desde aquí puedes acceder al panel de control personalizado para gestionar comentarios, referencias y juegos.</p>
+{% endblock %}
