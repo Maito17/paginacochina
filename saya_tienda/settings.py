@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 	"apps.games",
 	"apps.interactions",
 	"apps.users",
-	"sslserver",
+	
 ]
 
 MIDDLEWARE = [
