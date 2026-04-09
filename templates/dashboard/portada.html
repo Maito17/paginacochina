@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Portada | Saya Tienda{% endblock %}
+
+{% block content %}
+<div class="central-cover" style="position: relative;">
+    <img src="{% static 'imagenes/portadacentral.jpeg' %}" alt="Portada Saya Tienda" style="filter: brightness(0.7);">
+    <div style="position: absolute; top: 0; left: 0; width: 100vw; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <button style="background: #e60012; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.6rem 1.5rem; font-size: 1rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px #000a; letter-spacing: 1px;">NUEVOS LANZAMIENTOS</button>
+        <h1 style="font-size: 3.5rem; color: #fff; font-weight: 900; text-shadow: 2px 2px 16px #000, 0 0 2px #e60012; margin: 0;">El rincón de <span style="color: #e60012; text-shadow: none;">Saya</span></h1>
+        <p style="color: #fff; font-size: 1.3rem; margin: 1.5rem 0 2.5rem 0; text-align: center; max-width: 700px; text-shadow: 1px 1px 8px #000;">Los títulos más esperados y las experiencias gráficas en el mejor lugar. ¿Qué esperas para descargar? Solo pásalo y disfruta.</p>
+        <div style="display: flex; gap: 1.5rem;">
+            <a href="#destacados" style="background: #e60012; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.9rem 2.2rem; font-size: 1.2rem; text-decoration: none; box-shadow: 0 2px 8px #000a; letter-spacing: 1px;">EXPLORAR JUEGOS</a>
+            <a href="#vip" style="background: transparent; color: #fff; font-weight: bold; border: 2px solid #fff; border-radius: 8px; padding: 0.9rem 2.2rem; font-size: 1.2rem; text-decoration: none; letter-spacing: 1px; transition: background 0.2s, color 0.2s;">UNIRSE A VIP</a>
+        </div>
+    </div>
+</div>
+
+<!-- Etiquetas populares -->
+<style>
+    .etiquetas-pop-bar {
+        width: 100vw;
+        background: #111;
+        padding: 0.7rem 0 0.7rem 0;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        border-bottom: 1.5px solid #232345;
+        box-shadow: 0 2px 12px #000a;
+        gap: 0.5rem;
+    }
+    .etiquetas-pop-bar .etiqueta-titulo {
+        background: #222;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 8px 8px 0 0;
+        padding: 0.5rem 1.2rem;
+        margin-left: 2.5vw;
+        margin-right: 0.7rem;
+        box-shadow: 0 2px 8px #000a;
+        font-size: 1.08rem;
+        letter-spacing: 0.5px;
+    }
+    .etiquetas-pop-bar .etiqueta-chip {
+        display: inline-block;
+        background: #181818;
+        color: #fff;
+        border-radius: 16px;
+        padding: 0.35rem 1.1rem;
+        margin-right: 0.3rem;
+        font-size: 1.05rem;
+        text-decoration: none;
+        transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+        border: 1.5px solid transparent;
+        box-shadow: 0 1px 6px #0006;
+        font-weight: 500;
+    }
+    .etiquetas-pop-bar .etiqueta-chip:hover {
+        background: #7a7aff;
+        color: #fff200;
+        border: 1.5px solid #fff200;
+        box-shadow: 0 2px 12px #7a7aff44;
+    }
+    @media (max-width: 700px) {
+        .etiquetas-pop-bar .etiqueta-titulo { margin-left: 1vw; }
+        .etiquetas-pop-bar { font-size: 0.97rem; }
+    }
+</style>
+<div class="etiquetas-pop-bar">
+    <span class="etiqueta-titulo">Etiquetas populares</span>
+    <a href="/busqueda-avanzada/?tags=JoiPlay" class="etiqueta-chip"># JoiPlay</a>
+    <a href="/busqueda-avanzada/?tags=vaginal sex" class="etiqueta-chip"># vaginal sex</a>
+    <a href="/busqueda-avanzada/?tags=oral sex" class="etiqueta-chip"># oral sex</a>
+    <a href="/busqueda-avanzada/?tags=big tits" class="etiqueta-chip"># big tits</a>
+    <a href="/busqueda-avanzada/?tags=creampie" class="etiqueta-chip"># creampie</a>
+    <a href="/busqueda-avanzada/?tags=2dcg" class="etiqueta-chip"># 2dcg</a>
+    <a href="/busqueda-avanzada/?tags=2d game" class="etiqueta-chip"># 2d game</a>
+    <a href="/busqueda-avanzada/?tags=male protagonist" class="etiqueta-chip"># male protagonist</a>
+    <a href="/busqueda-avanzada/?tags=japanese game" class="etiqueta-chip" style="margin-right: 2vw;"># japanese game</a>
+</div>
+
+<div id="destacados" style="width: 100vw; background: #111; padding: 2rem 0 3rem 0; margin-top: -2rem;">
+    <h2 style="color: #ff3366; text-align: center; font-size: 2rem; margin-bottom: 2rem; text-shadow: 1px 1px 8px #000;">Destacados de la semana</h2>
+    <div style="display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; align-items: flex-start;">
+        <!-- Tarjetas de destacados dinámicas -->
+        <div style="display: flex; gap: 2.5rem; flex-wrap: wrap;">
+            {% for juego in juegos_destacados %}
+            <a href="{% url 'juego_detalle' juego.id %}" style="display: block; background: #222; border-radius: 18px; box-shadow: 0 4px 24px #000a; width: 280px; overflow: hidden; transition: transform 0.2s; text-decoration: none;">
+                <div style="background: #181828; display: flex; align-items: center; justify-content: center; height: 180px;">
+                    <img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}" style="width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 0 8px #ff3366);">
+                </div>
+                <div style="padding: 1.2rem;">
+                    <h3 style="color: #ff3366; margin: 0 0 0.5rem 0;">{{ juego.title }}</h3>
+                    <p style="margin: 0 0 0.5rem 0; color: #ccc;">{{ juego.description|truncatechars:70 }}</p>
+                    <span style="color: gold; font-weight: bold;">{{ juego.category.name }}</span>
+                </div>
+            </a>
+            {% empty %}
+            <div style="color: #fff;">No hay juegos destacados aún.</div>
+            {% endfor %}
+        </div>
+        <!-- Widget lateral interactivo -->
+        <div id="widget-juegos" style="background: #181828; border-radius: 12px; box-shadow: 0 2px 12px #000a; width: 330px; min-width: 250px; margin-left: 2.5rem; padding: 1.2rem 0.7rem 1.2rem 0.7rem;">
+            <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;">
+                <span style="color: #fff; font-size: 1.1rem; font-weight: bold; background: #232345; border-radius: 6px; padding: 0.4rem 1.1rem;">⚡</span>
+                <button id="tab-reciente" type="button" style="color: #fff; font-size: 1.1rem; font-weight: bold; background: #7a7aff; border-radius: 6px 0 0 6px; padding: 0.4rem 1.1rem; border: none; cursor: pointer;">RECIENTE</button>
+                <button id="tab-populares" type="button" style="color: #fff; font-size: 1.1rem; font-weight: bold; background: #232345; border-radius: 0 6px 6px 0; padding: 0.4rem 1.1rem; margin-left: -0.3rem; border: none; cursor: pointer;">POPULARES</button>
+            </div>
+            <div id="lista-juegos">
+                {% for juego in juegos_recientes %}
+                <div class="juego-item juego-reciente" style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;">
+                    <a href="{% url 'juego_detalle' juego.id %}"><img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px;"></a>
+                    <a href="{% url 'juego_detalle' juego.id %}" style="color: #fff; font-weight: bold; font-size: 1rem; text-decoration: none;">{{ juego.title|truncatechars:18 }}</a>
+                </div>
+                {% empty %}
+                <div style="color: #ccc;">No hay juegos recientes.</div>
+                {% endfor %}
+            </div>
+            <div id="lista-juegos-pop" style="display:none;">
+                {% for juego in juegos_populares %}
+                <div class="juego-item juego-popular" style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;">
+                    <a href="{% url 'juego_detalle' juego.id %}"><img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px;"></a>
+                    <a href="{% url 'juego_detalle' juego.id %}" style="color: #fff; font-weight: bold; font-size: 1rem; text-decoration: none;">{{ juego.title|truncatechars:18 }}</a>
+                </div>
+                {% empty %}
+                <div style="color: #ccc;">No hay juegos populares.</div>
+                {% endfor %}
+            </div>
+        </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabReciente = document.getElementById('tab-reciente');
+            const tabPopulares = document.getElementById('tab-populares');
+            const listaReciente = document.getElementById('lista-juegos');
+            const listaPop = document.getElementById('lista-juegos-pop');
+            function activar(tab) {
+                if(tab === 'reciente') {
+                    tabReciente.style.background = '#7a7aff';
+                    tabPopulares.style.background = '#232345';
+                    listaReciente.style.display = '';
+                    listaPop.style.display = 'none';
+                } else {
+                    tabReciente.style.background = '#232345';
+                    tabPopulares.style.background = '#7a7aff';
+                    listaReciente.style.display = 'none';
+                    listaPop.style.display = '';
+                }
+            }
+            tabReciente.addEventListener('click', () => activar('reciente'));
+            tabPopulares.addEventListener('click', () => activar('populares'));
+            activar('reciente');
+        });
+        </script>
+    </div>
+</div>
+
+<div id="vip" style="width: 100vw; background: #111; padding: 3rem 0 3rem 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <h2 style="color: #fff; font-size: 2.5rem; font-weight: bold; margin-bottom: 1.2rem; text-shadow: 2px 2px 12px #000; letter-spacing: 2px;">¡Hazte miembro VIP!</h2>
+    <p style="color: #fff; font-size: 1.2rem; max-width: 600px; text-align: center; margin-bottom: 2rem; text-shadow: 1px 1px 8px #000;">Accede a contenido exclusivo, descargas prioritarias, soporte premium y muchas sorpresas más. ¡Forma parte de la comunidad más selecta de Saya!</p>
+    <a href="/suscripciones/" style="background: #fff; color: #e60012; font-weight: bold; border: none; border-radius: 10px; padding: 1.1rem 2.8rem; font-size: 1.3rem; text-decoration: none; box-shadow: 0 2px 16px #000a; letter-spacing: 1px; transition: background 0.2s, color 0.2s;">UNIRME AHORA</a>
+</div>
+{% endblock %}

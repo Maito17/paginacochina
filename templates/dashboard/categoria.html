@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Categoría | Saya Tienda{% endblock %}
+{% block content %}
+<h1 style="color: #ff3366;">CATEGORÍA: {{ categoria_nombre|default:'Todas'|upper }}</h1>
+<p>Listado de juegos relacionados{% if categoria_obj %} con <b>{{ categoria_obj.name }}</b>{% endif %}.</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem;">
+	{% for juego in juegos %}
+	<div style="background: #222; border-radius: 16px; box-shadow: 0 2px 12px #000a; width: 260px; overflow: hidden;">
+		<a href="{% url 'juego_detalle' juego.id %}">
+			<div
+				style="background: #181828; display: flex; align-items: center; justify-content: center; height: 150px;">
+				<img src="{{ juego.thumbnail.url }}" alt="{{ juego.title }}"
+					style="width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 0 8px #ff3366);">
+			</div>
+		</a>
+		<div style="padding: 1rem;">
+			<a href="{% url 'juego_detalle' juego.id %}"
+				style="color: #ff3366; font-weight: bold; font-size: 1.1rem; text-decoration: none;">{{ juego.title
+				}}</a>
+			<div style="color: #ccc; margin: 0.5rem 0;">{{ juego.description|truncatechars:60 }}</div>
+			<span style="color: gold; font-weight: bold;">{{ juego.category.name }}</span>
+		</div>
+	</div>
+	{% empty %}
+	<div style="color: #fff;">No hay juegos en esta categoría.</div>
+	{% endfor %}
+</div>
+{% endblock %}
