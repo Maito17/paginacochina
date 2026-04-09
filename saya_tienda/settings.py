@@ -27,8 +27,7 @@ _railway_domain = os.getenv("RAILWAY_PUBLIC_DOMAIN", "")
 if _railway_domain:
 	_default_hosts += f",{_railway_domain}"
 
-ALLOWED_HOSTS = [*]
-    
+ALLOWED_HOSTS = ['*']
 	
 
 
