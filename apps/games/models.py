@@ -34,11 +34,38 @@ class Game(models.Model):
         help_text='Clasifica el juego para las secciones Android, Joinplay o APK.',
     )
     views_count = models.PositiveIntegerField(default=0)
+    tags = models.TextField(blank=True, default='', verbose_name='Tags')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Juego'
         verbose_name_plural = 'Juegos'
+
+    def __str__(self):
+        return self.title
+
+class SocialNetwork(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Nombre')
+    url = models.URLField(verbose_name='Enlace')
+    image = models.ImageField(upload_to='social_icons/', blank=True, null=True, verbose_name='Imagen de Icono')
+    is_active = models.BooleanField(default=True, verbose_name='Activo')
+
+    class Meta:
+        verbose_name = 'Red Social'
+        verbose_name_plural = 'Redes Sociales'
+
+    def __str__(self):
+        return self.name
+
+class SubscriptionPlan(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Título')
+    image = models.ImageField(upload_to='plans/', verbose_name='Imagen')
+    url = models.URLField(verbose_name='Enlace de Visita')
+    is_active = models.BooleanField(default=True, verbose_name='Activo')
+
+    class Meta:
+        verbose_name = 'Plan de Suscripción'
+        verbose_name_plural = 'Planes de Suscripción'
 
     def __str__(self):
         return self.title

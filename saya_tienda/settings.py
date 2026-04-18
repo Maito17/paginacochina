@@ -19,7 +19,7 @@ SECRET_KEY = os.getenv(
 	"django-insecure-local-dev-key-change-me",
 )
 
-DEBUG = env_bool("DEBUG", default=False)
+DEBUG = env_bool("DEBUG", default=True)
 
 _default_hosts = "localhost,127.0.0.1,0.0.0.0,testserver"
 # Railway injects RAILWAY_PUBLIC_DOMAIN automatically
@@ -29,6 +29,15 @@ if _railway_domain:
 
 ALLOWED_HOSTS = ['*']
 	
+
+# CSRF Trusted Origins for Railway
+CSRF_TRUSTED_ORIGINS = [
+	f"https://{host.strip()}"
+	for host in os.getenv("ALLOWED_HOSTS", _default_hosts).split(",")
+	if host.strip() and not host.strip().startswith("localhost")
+]
+if _railway_domain:
+	CSRF_TRUSTED_ORIGINS.append(f"https://{_railway_domain}")
 
 
 INSTALLED_APPS = [
@@ -138,10 +147,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Security settings — only enabled in production (DEBUG=False)
 if not DEBUG:
-	SECURE_SSL_REDIRECT = True
+	SECURE_SSL_REDIRECT = False
 	SECURE_HSTS_SECONDS = 31536000
-	SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-	SECURE_HSTS_PRELOAD = True
-	SESSION_COOKIE_SECURE = True
-	CSRF_COOKIE_SECURE = True
+	SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+	SECURE_HSTS_PRELOAD = False
+	SESSION_COOKIE_SECURE = False
+	CSRF_COOKIE_SECURE = False
 	SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

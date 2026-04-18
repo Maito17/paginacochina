@@ -76,7 +76,8 @@ def admin_subir_juego(request):
                 image2=image2,
                 download_url=download_url or None,
                 download_url_android=download_url_android or None,
-                android_type=android_type
+                android_type=android_type,
+                tags=tags or ''
             )
             mensaje = 'Juego subido correctamente.'
             juego_guardado = juego
@@ -88,7 +89,8 @@ def admin_subir_juego(request):
         'categorias': categorias,
         'mensaje': mensaje,
         'error': error,
-        'juego_guardado': juego_guardado
+        'juego_guardado': juego_guardado,
+        'available_tags': AVAILABLE_TAGS
     })
 from django.shortcuts import render
 
@@ -104,8 +106,10 @@ def portada(request):
     })
 
 from django.core.paginator import Paginator
-from .models import Game, Category
+from .models import Game, Category, SocialNetwork, SubscriptionPlan
 from django.db.models import Q, Avg
+
+from .constants import AVAILABLE_TAGS
 
 def busqueda_avanzada(request):
     query = request.GET.get('q', '')
@@ -121,10 +125,18 @@ def busqueda_avanzada(request):
         juegos = juegos.filter(category__name__icontains=categoria)
     if tags:
         for tag in tags.split(','):
-            juegos = juegos.filter(Q(title__icontains=tag.strip()) | Q(description__icontains=tag.strip()))
+            juegos = juegos.filter(
+                Q(title__icontains=tag.strip()) | 
+                Q(description__icontains=tag.strip()) |
+                Q(tags__icontains=tag.strip())
+            )
     if exclude_tags:
         for tag in exclude_tags.split(','):
-            juegos = juegos.exclude(Q(title__icontains=tag.strip()) | Q(description__icontains=tag.strip()))
+            juegos = juegos.exclude(
+                Q(title__icontains=tag.strip()) | 
+                Q(description__icontains=tag.strip()) |
+                Q(tags__icontains=tag.strip())
+            )
 
     paginator = Paginator(juegos.order_by('-created_at'), 12)
     page_obj = paginator.get_page(page_number)
@@ -138,11 +150,13 @@ def busqueda_avanzada(request):
         'tags': tags,
         'exclude_tags': exclude_tags,
         'total_resultados': paginator.count,
+        'available_tags': AVAILABLE_TAGS,
     }
     return render(request, 'dashboard/busqueda_avanzada.html', context)
 
 def suscriptores(request):
-    return render(request, 'dashboard/suscriptores.html')
+    planes = SubscriptionPlan.objects.filter(is_active=True)
+    return render(request, 'dashboard/suscriptores.html', {'planes': planes})
 
 def categoria(request):
     tipo = request.GET.get('tipo', '')
@@ -177,4 +191,5 @@ def suscripciones(request, tipo=None):
     })
 
 def redes(request):
-    return render(request, 'dashboard/redes.html')
+    redes_sociales = SocialNetwork.objects.filter(is_active=True)
+    return render(request, 'dashboard/redes.html', {'redes_sociales': redes_sociales})

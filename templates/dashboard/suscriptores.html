@@ -1,6 +1,50 @@
 {% extends 'base.html' %}
-{% block title %}SUSCRIPCIONES | Saya Tienda{% endblock %}
+{% block title %}Suscripciones | Saya Tienda{% endblock %}
 {% block content %}
-<h1>SUSCRIPCIONES</h1>
-<p>Lista de suscriptores y opciones.</p>
+<div style="max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem; text-align: center;">
+    <h1 style="color: #fff; font-size: 3rem; font-weight: 900; margin-bottom: 1rem; text-shadow: 2px 2px 12px #000;">Nuestras <span style="color: #ff3366;">Suscripciones</span></h1>
+    <p style="color: #aaa; font-size: 1.2rem; margin-bottom: 4rem;">Disfruta de nuestro contenido exclusivo y beneficios premium.</p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 3rem; justify-content: center;">
+        {% for plan in planes %}
+        <div class="plan-card" 
+            style="background: #181828; border-radius: 24px; width: 350px; overflow: hidden; box-shadow: 0 10px 30px #000a; border: 1px solid #232345; transition: transform 0.3s, box-shadow 0.3s;">
+            
+            <!-- Imagen del plan -->
+            <div style="width: 100%; height: 220px; overflow: hidden; position: relative;">
+                <img src="{{ plan.image.url }}" alt="{{ plan.title }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent 60%, #181828 100%);"></div>
+            </div>
+
+            <!-- Contenido del plan -->
+            <div style="padding: 2rem; text-align: left;">
+                <h2 style="color: #fff; font-size: 1.6rem; margin-bottom: 0.5rem;">{{ plan.title }}</h2>
+                <p style="color: #ff3366; font-weight: bold; font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 1px;">DISFRUTA DE NUESTRO EXCLUSIVO</p>
+                
+                <a href="{{ plan.url }}" target="_blank" 
+                    style="display: block; background: #ff3366; color: #fff; text-align: center; padding: 1rem; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: background 0.2s, transform 0.2s;">
+                    VISITAR
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div style="color: #777; font-size: 1.2rem; margin-top: 2rem;">No hay planes de suscripción disponibles por ahora.</div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .plan-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 15px 40px rgba(255, 51, 102, 0.25);
+        border-color: #ff3366;
+    }
+    .plan-card:hover img {
+        transform: scale(1.1);
+    }
+    .plan-card a:hover {
+        background: #e62e5c;
+        transform: scale(1.02);
+    }
+</style>
 {% endblock %}

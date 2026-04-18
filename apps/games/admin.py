@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Game, Category
+from .models import Game, Category, SocialNetwork, SubscriptionPlan
 
 
 @admin.register(Game)
@@ -10,7 +10,7 @@ class GameAdmin(admin.ModelAdmin):
 	search_fields = ('title', 'description')
 	fieldsets = (
 		('Informacion basica', {
-			'fields': ('title', 'description', 'category'),
+			'fields': ('title', 'description', 'category', 'tags'),
 		}),
 		('Imagenes', {
 			'fields': ('thumbnail', 'image1', 'image2'),
@@ -51,4 +51,16 @@ class CategoryAdmin(admin.ModelAdmin):
 	list_display = ('name', 'description')
 	search_fields = ('name',)
 
-	admin.site.register(ControlProxy, ControlAdmin)
+@admin.register(SocialNetwork)
+class SocialNetworkAdmin(admin.ModelAdmin):
+	list_display = ('name', 'url', 'is_active')
+	list_editable = ('is_active',)
+	search_fields = ('name',)
+
+@admin.register(SubscriptionPlan)
+class SubscriptionPlanAdmin(admin.ModelAdmin):
+	list_display = ('title', 'url', 'is_active')
+	list_editable = ('is_active',)
+	search_fields = ('title',)
+
+admin.site.register(ControlProxy, ControlAdmin)

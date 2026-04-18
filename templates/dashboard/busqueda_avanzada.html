@@ -24,11 +24,99 @@
                     {% endfor %}
                 </select>
                 <label style="font-weight: bold; color: #fff;">Tags:</label>
-                <input type="text" name="tags" value="{{ tags }}" placeholder="Ej: acción, aventura"
-                    style="width: 100%; margin: 0.5rem 0 1.2rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
+                <div style="margin: 0.5rem 0 1.2rem 0;">
+                    <input type="hidden" id="tags-input" name="tags" value="{{ tags }}">
+                    <input type="text" class="tag-search" placeholder="Buscar tag..." data-target="tags-list"
+                        style="width: 100%; padding: 0.4rem; border-radius: 6px 6px 0 0; border: none; background: #333; color: #fff; font-size: 0.85rem;">
+                    <div id="tags-list" class="tag-selector-box" 
+                        style="background: #222; border-radius: 0 0 6px 6px; padding: 0.6rem; max-height: 200px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 0.4rem; border-top: 1px solid #444;">
+                        {% for tag in available_tags %}
+                        <span class="tag-chip tag-include" data-tag="{{ tag }}" 
+                            style="background: #111; color: #ccc; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border: 1px solid #333; user-select: none;">
+                            {{ tag }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
                 <label style="font-weight: bold; color: #fff;">Excluir tags:</label>
-                <input type="text" name="exclude_tags" value="{{ exclude_tags }}" placeholder="Ej: terror, puzzle"
-                    style="width: 100%; margin: 0.5rem 0 1.2rem 0; padding: 0.5rem; border-radius: 6px; border: none; background: #222; color: #fff;">
+                <div style="margin: 0.5rem 0 1.2rem 0;">
+                    <input type="hidden" id="exclude-tags-input" name="exclude_tags" value="{{ exclude_tags }}">
+                    <input type="text" class="tag-search" placeholder="Buscar tag..." data-target="exclude-list"
+                        style="width: 100%; padding: 0.4rem; border-radius: 6px 6px 0 0; border: none; background: #333; color: #fff; font-size: 0.85rem;">
+                    <div id="exclude-list" class="tag-selector-box" 
+                        style="background: #222; border-radius: 0 0 6px 6px; padding: 0.6rem; max-height: 200px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 0.4rem; border-top: 1px solid #444;">
+                        {% for tag in available_tags %}
+                        <span class="tag-chip tag-exclude" data-tag="{{ tag }}" 
+                            style="background: #111; color: #ccc; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; border: 1px solid #333; user-select: none;">
+                            {{ tag }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <style>
+                    .tag-chip:hover { border-color: #7a7aff; color: #fff; }
+                    .tag-chip.active-include { background: #7a7aff !important; color: #fff !important; border-color: #fff !important; }
+                    .tag-chip.active-exclude { background: #ff3366 !important; color: #fff !important; border-color: #fff !important; }
+                    .tag-selector-box::-webkit-scrollbar { width: 4px; }
+                    .tag-selector-box::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+                </style>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const tagsInput = document.getElementById('tags-input');
+                        const excludeInput = document.getElementById('exclude-tags-input');
+                        
+                        function updateChips() {
+                            const included = tagsInput.value.split(',').map(t => t.trim().toLowerCase()).filter(t => t !== "");
+                            const excluded = excludeInput.value.split(',').map(t => t.trim().toLowerCase()).filter(t => t !== "");
+                            
+                            document.querySelectorAll('.tag-include').forEach(chip => {
+                                const tag = chip.getAttribute('data-tag').toLowerCase();
+                                chip.classList.toggle('active-include', included.includes(tag));
+                            });
+                            document.querySelectorAll('.tag-exclude').forEach(chip => {
+                                const tag = chip.getAttribute('data-tag').toLowerCase();
+                                chip.classList.toggle('active-exclude', excluded.includes(tag));
+                            });
+                        }
+
+                        function toggleTag(input, tag) {
+                            let currentTags = input.value.split(',').map(t => t.trim()).filter(t => t !== "");
+                            const index = currentTags.findIndex(t => t.toLowerCase() === tag.toLowerCase());
+                            if (index > -1) {
+                                currentTags.splice(index, 1);
+                            } else {
+                                currentTags.push(tag);
+                            }
+                            input.value = currentTags.join(', ');
+                            updateChips();
+                        }
+
+                        document.querySelectorAll('.tag-chip').forEach(chip => {
+                            chip.addEventListener('click', function() {
+                                const tag = this.getAttribute('data-tag');
+                                const input = this.classList.contains('tag-include') ? tagsInput : excludeInput;
+                                toggleTag(input, tag);
+                            });
+                        });
+
+                        document.querySelectorAll('.tag-search').forEach(search => {
+                            search.addEventListener('input', function() {
+                                const targetId = this.getAttribute('data-target');
+                                const term = this.value.toLowerCase();
+                                document.getElementById(targetId).querySelectorAll('.tag-chip').forEach(chip => {
+                                    const tag = chip.getAttribute('data-tag').toLowerCase();
+                                    chip.style.display = tag.includes(term) ? '' : 'none';
+                                });
+                            });
+                        });
+
+                        updateChips();
+                    });
+                </script>
+
                 <button type="submit"
                     style="background: #7a7aff; color: #fff; font-weight: bold; border: none; border-radius: 8px; padding: 0.7rem 2rem; font-size: 1.1rem; margin-top: 1rem; cursor: pointer; width: 100%;">FILTRAR</button>
                 <a href="?"
