@@ -32,9 +32,9 @@ ALLOWED_HOSTS = ['*']
 
 # CSRF Trusted Origins for Railway
 CSRF_TRUSTED_ORIGINS = [
-	f"https://{host.strip()}"
-	for host in os.getenv("ALLOWED_HOSTS", _default_hosts).split(",")
-	if host.strip() and not host.strip().startswith("localhost")
+	"https://elrincodesaya.up.railway.app",
+	"https://*.railway.app",
+	
 ]
 if _railway_domain:
 	CSRF_TRUSTED_ORIGINS.append(f"https://{_railway_domain}")
@@ -151,6 +151,6 @@ if not DEBUG:
 	SECURE_HSTS_SECONDS = 31536000
 	SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 	SECURE_HSTS_PRELOAD = False
-	SESSION_COOKIE_SECURE = False
-	CSRF_COOKIE_SECURE = False
+	SESSION_COOKIE_SECURE = True
+	CSRF_COOKIE_SECURE = True
 	SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
