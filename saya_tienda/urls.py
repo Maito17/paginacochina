@@ -29,4 +29,5 @@ urlpatterns = [
 urlpatterns += [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    path('googlec1e3c0d53cf57cb2.html', TemplateView.as_view(template_name='googlec1e3c0d53cf57cb2.html')),
 ]
