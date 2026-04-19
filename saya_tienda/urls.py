@@ -19,10 +19,12 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.games.urls')),
+    path('googlec1e3c0d53cf57cb2.html', TemplateView.as_view(template_name='googlec1e3c0d53cf57cb2.html')),
 ]
 
 # Servir archivos estáticos y media siempre (necesario para servidores como Railway sin S3)
